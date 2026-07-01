@@ -274,41 +274,42 @@
   <footer id="animated-footer"><span id="footer-text"></span><span id="footer-cursor" class="blinking-cursor">_</span></footer>
 
   <script>
-    function toggleTheme() {
-      document.body.classList.toggle('light-mode');
-    }
-
-    const text = "thinking";
+    const phrases = [
+      "thinking...",
+      "sleeping...",
+      "drinking...",
+    ];
+    
     const textEl = document.getElementById("footer-text");
-    const cursorEl = document.getElementById("footer-cursor");
-    let index = 0;
+    let phraseIndex = 0;
+    let charIndex = 0;
     let direction = 1;
-
+    
     function typeLoop() {
-      textEl.textContent = text.substring(0, index);
+      const text = phrases[phraseIndex];
+      textEl.textContent = text.substring(0, charIndex);
+    
       if (direction === 1) {
-        if (index < text.length) {
-          index++;
+        if (charIndex < text.length) {
+          charIndex++;
+          setTimeout(typeLoop, 100);
         } else {
           direction = -1;
           setTimeout(typeLoop, 2000);
-          return;
         }
       } else {
-      if (index > 0) {
-        index--;
-      } else {
-        direction = 1;
-        setTimeout(typeLoop, 2000);
-        return;
+        if (charIndex > 0) {
+          charIndex--;
+          setTimeout(typeLoop, 60);
+        } else {
+          direction = 1;
+          phraseIndex = (phraseIndex + 1) % phrases.length;
+          setTimeout(typeLoop, 500);
         }
       }
-      setTimeout(typeLoop, 100);
     }
-
-    typeLoop();
-
     
+    typeLoop();
   </script>
 </body>
 </html>
